@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createStyle } from '../util/styleHelter';
 
 const style = createStyle({
@@ -13,11 +13,6 @@ const style = createStyle({
 });
 
 const Home: React.FC = () => {
-
-  useEffect(() => {
-    console.log(import.meta.env);
-  }, []);
-
   return (
     <Box sx={style.sx.root}>
       Home

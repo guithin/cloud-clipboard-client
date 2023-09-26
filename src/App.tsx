@@ -1,26 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Router from './Router';
-import io from 'socket.io-client';
+import GlobalLoading from './components/GlobalLoading';
+import { socket, connectPromise } from './util/wsHelper';
 
-const socket = io(import.meta.env.VITE_APP_BASE_URL);
-
-socket.on('connect', () => {
-  console.log('connected');
-});
-
-socket.on('disconnect', () => {
-  console.log('disconnected');
-});
-
-socket.on('ExampleWSE', (data) => {
-  console.log(data);
-});
-
-(window as any).temp = () => socket.emit('ExampleWSL', { id: 11 });
+(window as any).temp = () => socket.emit('api/example/ping', { id: 11 });
 
 const App: React.FC = () => {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    connectPromise.then(() => setLoading(false));
+  }, []);
+
   return (
-    <Router />
+    <>
+      <Router />
+      <GlobalLoading loading={loading} />
+    </>
   );
 };
 
