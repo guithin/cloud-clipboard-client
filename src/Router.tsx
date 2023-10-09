@@ -31,6 +31,7 @@ const style = createStyle({
     height: '60px',
     position: 'relative',
     mb: 2,
+    zIndex: 2000,
   },
   root: {
     display: 'flex',

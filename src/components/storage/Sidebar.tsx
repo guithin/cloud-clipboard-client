@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Drawer, List, ListItem, ListItemIcon, Toolbar, Typography } from '@mui/material';
+import { Drawer, List, ListItem, ListItemIcon, Toolbar, Tooltip, Typography } from '@mui/material';
 import { Storage } from '@mui/icons-material';
+import { StorageIO } from 'common';
 import { createStyle } from '../../util/styleHelter';
 import { useUserStore } from '../../store';
+import StorageAPI from '../../api/StorageAPI';
 
 const style = createStyle({
   drawer: {
     width: 240,
+    height: '100%',
     flexShrink: 0,
     zIndex: 0,
     [`& .MuiDrawer-paper`]: {
@@ -30,6 +33,13 @@ const style = createStyle({
 
 const Sidebar: React.FC = () => {
   const { user } = useUserStore();
+  const [bucketList, setBucketList] = useState<StorageIO.BucketLst['ResB']['buckets']>([]);
+
+  useEffect(() => {
+    StorageAPI
+      .getBucketList()
+      .then((res) => setBucketList(res.data.buckets));
+  }, []);
 
   if (user === null) {
     return null;
@@ -41,7 +51,7 @@ const Sidebar: React.FC = () => {
       <List>
         <Link
           to={'/storage/' + user.userId}
-          style={{ textDecoration: 'none' }}
+          style={{ textDecoration: 'none', marginBottom: '20px', display: 'block' }}
         >
           <ListItem sx={style.sx.item} key={'/storage/' + user.userId}>
             <ListItemIcon><Storage /></ListItemIcon>
@@ -50,6 +60,32 @@ const Sidebar: React.FC = () => {
             </Typography>
           </ListItem>
         </Link>
+        {bucketList.map((bucket) => (
+          <Link
+            to={'/storage/' + bucket.name}
+            style={{ textDecoration: 'none' }}
+            key={'/storage/' + bucket.name}
+          >
+            <Tooltip
+              title={'owner - ' + bucket.ownerName}
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    fontSize: '15px',
+                    padding: '10px 15px',
+                  },
+                },
+              }}
+            >
+              <ListItem sx={style.sx.item} key={'/storage/' + bucket.name}>
+                <ListItemIcon><Storage /></ListItemIcon>
+                <Typography noWrap={true} color='textPrimary'>
+                  {bucket.name}
+                </Typography>
+              </ListItem>
+            </Tooltip>
+          </Link>
+        ))}
       </List>
     </Drawer>
   );

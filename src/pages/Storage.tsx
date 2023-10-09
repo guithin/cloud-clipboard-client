@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Box } from '@mui/material';
 import Sidebar from '../components/storage/Sidebar';
+import PathInfo from '../components/storage/PathInfo';
+import Explorer from '../components/storage/Explorer';
+import ContextMenu from '../components/storage/menu/ContextMenu';
 import { useUserStore } from '../store';
 
 const Storage: React.FC = () => {
@@ -23,9 +27,14 @@ const Storage: React.FC = () => {
   }
 
   return (
-    <>
+    <Box sx={{ width: '100%', overflow: 'hidden', display: 'flex', flex: '1 1 auto' }}>
       <Sidebar />
-    </>
+      <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', flex: '1 1 auto' }}>
+        <PathInfo />
+        <Explorer />
+      </Box>
+      <ContextMenu />
+    </Box>
   );
 };
 
