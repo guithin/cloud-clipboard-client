@@ -4,6 +4,7 @@ import GlobalLoading from './components/GlobalLoading';
 import { socket, connectPromise } from './util/wsHelper';
 
 (window as any).temp = () => socket.emit('ExampleWSL', { id: 11 });
+(window as any).temp2 = () => socket.emit('EnterRoom', { roomId: 'r1' });
 
 socket.on('ExampleWSE', (data) => {
   console.log(data);
