@@ -27,7 +27,7 @@ const Storage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ width: '100%', overflow: 'hidden', display: 'flex', flex: '1 1 auto' }}>
+    <Box sx={{ width: '100%', overflow: 'hidden', display: 'flex', flex: '1 1 auto' }} id="storage-top">
       <Sidebar />
       <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', flex: '1 1 auto' }}>
         <PathInfo />

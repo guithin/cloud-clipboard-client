@@ -64,6 +64,7 @@ const ExplorerItem: React.FC<Props> = ({ item }) => {
   const handleContextMenuItem = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    console.log(e);
     contextMenuOpen({
       x: e.clientX,
       y: e.clientY,

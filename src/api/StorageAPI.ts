@@ -16,6 +16,15 @@ class StorageAPI {
   getBucketList() {
     return axios.get<StorageIO.BucketLst['ResB']>('/api/storage/bucketlist');
   }
+
+  uploadItem(body: StorageIO.Upload['ReqB'], file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+    Object.entries(body).forEach(([key, value]) => 
+      formData.append(key, typeof value === 'string' ? value : JSON.stringify(value)),
+    );
+    return axios.post('/api/storage/upload', formData);
+  }
 }
 
 export default new StorageAPI();
