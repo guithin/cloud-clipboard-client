@@ -45,7 +45,6 @@ const Login: React.FC = () => {
   const handleLogin = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     AuthAPI.login(loginInfo).then((res) => {
-      console.log(res.data);
       login({
         name: res.data.name,
         token: res.data.token,
@@ -55,7 +54,6 @@ const Login: React.FC = () => {
     }).catch(() => {
       alert('id, password를 확인해주세요.');
     });
-    console.log(loginInfo);
   }, [loginInfo]);
 
   const handleChange = useCallback((type: 'userId' | 'password', value: string) => {

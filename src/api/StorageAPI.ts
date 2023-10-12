@@ -25,6 +25,10 @@ class StorageAPI {
     );
     return axios.post('/api/storage/upload', formData);
   }
+
+  deleteItem(body: StorageIO.RmDirent['ReqB']) {
+    return axios.post<StorageIO.RmDirent['ResB']>('/api/storage/rmdirent', body);
+  }
 }
 
 export default new StorageAPI();
