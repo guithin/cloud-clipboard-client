@@ -29,6 +29,10 @@ class StorageAPI {
   deleteItem(body: StorageIO.RmDirent['ReqB']) {
     return axios.post<StorageIO.RmDirent['ResB']>('/api/storage/rm', body);
   }
+
+  mkdir(body: StorageIO.Mkdir['ReqB']) {
+    return axios.post<StorageIO.Mkdir['ResB']>('/api/storage/mkdir', body);
+  }
 }
 
 export default new StorageAPI();
