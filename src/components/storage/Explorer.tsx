@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import ExplorerItem from './ExplorerItem';
 import { createStyle } from '../../util/styleHelter';
 import { useUserStore } from '../../store';
 import StorageAPI from '../../api/StorageAPI';
-import { StorageIO } from '../../../common/interfaces/storage';
-import ExplorerItem from './ExplorerItem';
+import { StorageIO } from 'common';
 
 const style = createStyle({});
 
