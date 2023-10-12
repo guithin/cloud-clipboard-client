@@ -27,7 +27,7 @@ class StorageAPI {
   }
 
   deleteItem(body: StorageIO.RmDirent['ReqB']) {
-    return axios.post<StorageIO.RmDirent['ResB']>('/api/storage/rmdirent', body);
+    return axios.post<StorageIO.RmDirent['ResB']>('/api/storage/rm', body);
   }
 }
 

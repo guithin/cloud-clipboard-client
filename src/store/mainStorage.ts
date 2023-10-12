@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { MethodWrap, OnlyState } from './base';
+import { MethodWrap } from './base';
 import { StorageIO } from 'common';
 import StorageAPI from '../api/StorageAPI';
 
@@ -32,7 +32,7 @@ const INIT_STATE: MemberVars = {
   loading: false,
 };
 
-const exampleStore = create<StateType>((set) => ({
+const useMainStorageStore = create<StateType>((set) => ({
   ...INIT_STATE,
   refresh: () => {
     set((state) => {
@@ -46,7 +46,7 @@ const exampleStore = create<StateType>((set) => ({
     });
   },
   enter: ({ bucket, path }) => {
-    set((state) => {
+    set(() => {
       StorageAPI.readDir({
         bucket,
         path,
@@ -66,4 +66,4 @@ const exampleStore = create<StateType>((set) => ({
   },
 }));
 
-export default exampleStore as OnlyState<StateType>;
+export default useMainStorageStore;

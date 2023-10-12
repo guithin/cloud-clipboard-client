@@ -28,10 +28,10 @@ const INIT_STATE: MemberVars = {
   info: null,
 };
 
-const exampleStore = create<StateType>((set) => ({
+const useStorageMenuStore = create<StateType>((set) => ({
   ...INIT_STATE,
   open: (info) => set({ info }),
   onClose: () => set({ info: null }),
 }));
 
-export default exampleStore as OnlyState<StateType>;
+export default useStorageMenuStore as OnlyState<StateType>;

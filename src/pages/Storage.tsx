@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import Sidebar from '../components/storage/Sidebar';
@@ -12,36 +12,23 @@ const Storage: React.FC = () => {
   const navigate = useNavigate();
 
   const { user } = useUserStore();
-  const { enter, loading, items, pathStr, bucket } = useMainStorageStore();
-
-  const handleRefresh = useCallback(() => {
-
-  }, []);
+  const mss = useMainStorageStore();
 
   useEffect(() => {
     if (!user) return;
-    const paths = location.pathname.split('/').filter((path) => path !== '').slice(1);
-    if (paths.length === 0) {
-      navigate('/storage/' + user.userId);
-    }
-  }, [user, location]);
-
-  useEffect(() => {
-    console.log(location.pathname)
     const [bucket, ...paths] = location.pathname.split('/').filter((path) => path !== '').slice(1);
-    enter({
-      bucket,
-      path: paths.join('/'),
-    });
-  }, [location]);
-
-  useEffect(() => {
-    if (loading === false) {
-      console.log('load done');
-      console.log(bucket, pathStr);
-      console.log(items);
+    if (typeof bucket !== 'string' || bucket === '') {
+      navigate('/storage/' + user.userId);
+      return;
     }
-  }, [loading, items, pathStr, bucket]);
+    const pathStr = paths.join('/');
+    if (pathStr !== mss.pathStr || mss.bucket !== bucket) {
+      mss.enter({
+        bucket,
+        path: pathStr,
+      });
+    }
+  }, [user, location, mss]);
 
   if (!user) {
     return null;
@@ -54,7 +41,7 @@ const Storage: React.FC = () => {
         <PathInfo />
         <Explorer />
       </Box>
-      <ContextMenu needRefresh={() => {}} />
+      <ContextMenu />
     </Box>
   );
 };

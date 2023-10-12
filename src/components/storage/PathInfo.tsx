@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Box, List, ListItem, Typography } from '@mui/material';
+import { Box, CircularProgress, List, ListItem, Typography } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { createStyle } from '../../util/styleHelter';
+import { useMainStorageStore } from '../../store';
 
 const style = createStyle({
   list: {
@@ -30,6 +31,8 @@ const style = createStyle({
 const PathInfo: React.FC = () => {
   const location = useLocation();
 
+  const loading = useMainStorageStore(st => st.loading);
+
   const [pathLst, setPathLst] = useState<[string, string][]>([]);
 
   useEffect(() => {
@@ -54,6 +57,7 @@ const PathInfo: React.FC = () => {
           {idx !== pathLst.length - 1 && <ArrowForwardIosIcon fontSize="small" />}
         </Box>
       ))}
+      {loading && <CircularProgress sx={{ ml: 2 }} size={20} />}
     </List>
   );
 };

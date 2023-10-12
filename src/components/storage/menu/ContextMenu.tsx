@@ -3,11 +3,7 @@ import { Menu, MenuItem } from '@mui/material';
 import { useStorageMenuStore } from '../../../store';
 import ElDelete from './ElDelete';
 
-interface Props {
-  needRefresh: () => unknown;
-}
-
-const ContextMenu: React.FC<Props> = ({ needRefresh }) => {
+const ContextMenu: React.FC = () => {
   const { info, onClose } = useStorageMenuStore();
 
   if (info === null) {
@@ -25,7 +21,7 @@ const ContextMenu: React.FC<Props> = ({ needRefresh }) => {
       anchorReference="anchorPosition"
       anchorPosition={{ top: info.y, left: info.x }}
     >
-      {info.item?.isFile && <ElDelete needRefresh={needRefresh} />}
+      {info.item?.isFile && <ElDelete />}
       <MenuItem>asdf</MenuItem>
       <MenuItem>asdf</MenuItem>
       <MenuItem>asdf</MenuItem>

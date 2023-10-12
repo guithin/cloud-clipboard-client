@@ -1,62 +1,35 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Box, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import ExplorerItem from './ExplorerItem';
-import { createStyle } from '../../util/styleHelter';
-import { useUserStore } from '../../store';
+import { useMainStorageStore, useUserStore } from '../../store';
 import StorageAPI from '../../api/StorageAPI';
-import { StorageIO } from 'common';
 
-const style = createStyle({});
+// const style = createStyle({});
 
 const Explorer: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const { user } = useUserStore();
+  const mss = useMainStorageStore();
 
   const ref = useRef<HTMLDivElement>(null);
-  const [item, setItem] = useState<StorageIO.ReadDir['ResB']['result']>([]);
-  const [loading, setLoading] = useState(false);
-
-  const handleRefresh = useCallback(() => {
-    const [bucket, ...paths] = location.pathname.split('/').filter((path) => path !== '').slice(1);
-    if (!user) return;
-    if (!bucket) return;
-    setLoading(true);
-    StorageAPI.readDir({
-      bucket,
-      path: paths.join('/'),
-    }).then((res) => {
-      setItem(res.data.result.sort((a, b) => Number(a.isFile) - Number(b.isFile)));
-      setLoading(false);
-    }).catch(() => {
-      if (paths.length === 0 && user.userId === bucket) {
-        return alert('error');
-      }
-      navigate('/storage');
-    });
-  }, [location, user]);
-
-  useEffect(() => {
-    handleRefresh();
-  }, [location, user]);
 
   const handleDrop = useCallback(async (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (!e.dataTransfer) return;
     const { files } = e.dataTransfer;
-    const st = new Set<string>(item.map((i) => i.name));
+    const st = new Set<string>(mss.items.map((i) => i.name));
     for (let i = 0; i < files.length; i++) {
       st.add(files[i].name);
     }
-    const duplicate = st.size !== (files.length + item.length);
+    const duplicate = st.size !== (files.length + mss.items.length);
     if (duplicate && !confirm('file already exists. do you want to overwrite?')) {
       return;
     }
     const [bucket, ...paths] = location.pathname.split('/').filter((path) => path !== '').slice(1);
     if (!bucket) return;
-    for (let i = 0 ; i < files.length; i++) {
+    for (let i = 0; i < files.length; i++) {
       const file = files[i];
       await StorageAPI.uploadItem({
         bucket,
@@ -64,8 +37,8 @@ const Explorer: React.FC = () => {
         filename: file.name,
       }, file);
     }
-    handleRefresh();
-  }, [item, location, user]);
+    mss.refresh();
+  }, [mss, location, user]);
 
   const handleDragOver = useCallback((e: DragEvent) => {
     e.preventDefault();
@@ -81,20 +54,12 @@ const Explorer: React.FC = () => {
         document.removeEventListener('drop', handleDrop);
       };
     }
-  }, [ref, item, location]);
+  }, [ref, mss.items, location]);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     console.log('this is empty space');
   }, []);
-
-  if (loading) {
-    return (
-      <Box sx={style.merge('__hc', '__vc', 'w100', { height: '100vh', overflowY: 'auto' })}>
-        <CircularProgress />
-      </Box>
-    );
-  }
 
   return (
     <TableContainer ref={ref} sx={{ flex: '1 1 auto' }} onContextMenu={handleContextMenu}>
@@ -107,7 +72,7 @@ const Explorer: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {item.map((row) => (
+          {!mss.loading && mss.items.map((row) => (
             <ExplorerItem key={row.name} item={row} />
           ))}
         </TableBody>
