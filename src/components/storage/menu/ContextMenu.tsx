@@ -1,30 +1,40 @@
 import React from 'react';
 import { Menu, MenuItem } from '@mui/material';
-import { useStorageMenuStore } from '../../../store';
+import { useMainStorageStore } from 'src/store';
 import ElDelete from './ElDelete';
+import ElNewFolder from './ElNewFolder';
+import ElDetail from './ElDetail';
 
 const ContextMenu: React.FC = () => {
-  const { info, onClose } = useStorageMenuStore();
+  const { contextMenu, closeContextMenu, sltdItem } = useMainStorageStore();
 
-  if (info === null) {
+  if (contextMenu === null) {
     return null;
   }
 
   return (
     <Menu
       open={true}
-      onClose={onClose}
+      onClose={closeContextMenu}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'left',
       }}
       anchorReference="anchorPosition"
-      anchorPosition={{ top: info.y, left: info.x }}
+      anchorPosition={{ top: contextMenu.y, left: contextMenu.x }}
+      slotProps={{
+        paper: {
+          sx: {
+            width: '200px',
+          },
+        },
+      }}
     >
-      {info.item?.isFile && <ElDelete />}
-      <MenuItem>asdf</MenuItem>
-      <MenuItem>asdf</MenuItem>
-      <MenuItem>asdf</MenuItem>
+      {sltdItem && <ElDelete />}
+      {!sltdItem && <ElNewFolder />}
+      {sltdItem && <ElDetail />}
+      <MenuItem onKeyDown={e => e.stopPropagation()}>asdf</MenuItem>
+      <MenuItem onKeyDown={e => e.stopPropagation()}>asdf</MenuItem>
     </Menu>
   );
 };

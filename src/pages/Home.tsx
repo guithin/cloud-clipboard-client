@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, ButtonBase, Paper, Typography } from '@mui/material';
 import { Storage } from '@mui/icons-material';
-import { createStyle } from '../util/styleHelter';
+import { createStyle } from 'src/util/styleHelter';
 import { useNavigate } from 'react-router-dom';
 
 const style = createStyle({

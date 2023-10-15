@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
-import Sidebar from '../components/storage/Sidebar';
-import PathInfo from '../components/storage/PathInfo';
-import Explorer from '../components/storage/Explorer';
-import ContextMenu from '../components/storage/menu/ContextMenu';
-import { useMainStorageStore, useUserStore } from '../store';
+import Sidebar from 'src/components/storage/Sidebar';
+import PathInfo from 'src/components/storage/PathInfo';
+import Explorer from 'src/components/storage/Explorer';
+import ContextMenu from 'src/components/storage/menu/ContextMenu';
+import { useMainStorageStore, useUserStore } from 'src/store';
 
 const Storage: React.FC = () => {
   const location = useLocation();

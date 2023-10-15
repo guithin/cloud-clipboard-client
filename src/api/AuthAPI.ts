@@ -1,4 +1,4 @@
-import axios from '../util/axios';
+import axios from 'src/util/axios';
 import { AuthIO } from 'common';
 
 class AuthAPI {

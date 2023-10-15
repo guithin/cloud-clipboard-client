@@ -3,11 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { TableCell, TableRow, Typography } from '@mui/material';
 import { Folder, InsertDriveFile, Image } from '@mui/icons-material';
 import { StorageIO } from 'common';
-import { ArrayElement } from '../../util/types';
-import { createStyle } from '../../util/styleHelter';
-import StorageAPI from '../../api/StorageAPI';
-import { downloadFile, getBeforeStr, getSizeStr } from '../../util/funcs';
-import { useStorageMenuStore } from '../../store';
+import { ArrayElement } from 'src/util/types';
+import { createStyle } from 'src/util/styleHelter';
+import StorageAPI from 'src/api/StorageAPI';
+import { downloadFile, getBeforeStr, getSizeStr } from 'src/util/funcs';
+import { useMainStorageStore } from 'src/store';
 
 type ItemType = ArrayElement<StorageIO.ReadDir['ResB']['result']>;
 
@@ -43,7 +43,7 @@ interface Props {
 const ExplorerItem: React.FC<Props> = ({ item }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { open: contextMenuOpen } = useStorageMenuStore();
+  const { openContextMenu, setSltItem, sltdItem } = useMainStorageStore();
 
   const handleClick = useCallback((nitem: ItemType) => {
     const [bucket, ...paths] = location.pathname.split('/').filter((path) => path !== '').slice(1);
@@ -64,18 +64,20 @@ const ExplorerItem: React.FC<Props> = ({ item }) => {
   const handleContextMenuItem = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(e);
-    contextMenuOpen({
+    setSltItem(item);
+    openContextMenu({
       x: e.clientX,
       y: e.clientY,
-      item,
     });
   }, []);
 
   return (
     <TableRow
-      sx={style.sx.item}
-      onClick={() => handleClick(item)}
+      sx={style.merge('item', {
+        backgroundColor: item.name === sltdItem?.name ? '#d0d0d0' : undefined,
+      })}
+      onClick={() => setSltItem(item)}
+      onDoubleClick={() => handleClick(item)}
       onContextMenu={handleContextMenuItem}
     >
       <TableCell sx={style.sx.__hc}>

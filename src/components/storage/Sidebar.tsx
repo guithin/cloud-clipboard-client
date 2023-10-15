@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { Drawer, List, ListItem, ListItemIcon, Toolbar, Tooltip, Typography } from '@mui/material';
 import { Storage } from '@mui/icons-material';
 import { StorageIO } from 'common';
-import { createStyle } from '../../util/styleHelter';
-import { useUserStore } from '../../store';
-import StorageAPI from '../../api/StorageAPI';
+import { createStyle } from 'src/util/styleHelter';
+import { useUserStore } from 'src/store';
+import StorageAPI from 'src/api/StorageAPI';
 
 const style = createStyle({
   drawer: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyle } from '../util/styleHelter';
+import { createStyle } from 'src/util/styleHelter';
 import { Box, CircularProgress } from '@mui/material';
 
 interface IPorops {
@@ -17,6 +17,7 @@ const style = createStyle({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 10,
   },
 });
 

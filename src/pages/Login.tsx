@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Paper, TextField, Typography } from '@mui/material';
-import { createStyle } from '../util/styleHelter';
-import AuthAPI from '../api/AuthAPI';
-import { useUserStore } from '../store';
+import { createStyle } from 'src/util/styleHelter';
+import AuthAPI from 'src/api/AuthAPI';
+import { useUserStore } from 'src/store';
 
 const style = createStyle({
   root: {

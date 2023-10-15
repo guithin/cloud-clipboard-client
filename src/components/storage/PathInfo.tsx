@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Box, CircularProgress, List, ListItem, Typography } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { createStyle } from '../../util/styleHelter';
-import { useMainStorageStore } from '../../store';
+import { createStyle } from 'src/util/styleHelter';
+import { useMainStorageStore } from 'src/store';
 
 const style = createStyle({
   list: {

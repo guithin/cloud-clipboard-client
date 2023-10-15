@@ -1,8 +1,11 @@
 import { create } from 'zustand';
 import { MethodWrap } from './base';
 import { StorageIO } from 'common';
-import StorageAPI from '../api/StorageAPI';
+import StorageAPI from 'src/api/StorageAPI';
+import { ArrayElement } from 'src/util/types';
 
+
+type ItemType = ArrayElement<StorageIO.ReadDir['ResB']['result']>;
 interface MemberVars {
   bucket: string;
 
@@ -12,6 +15,12 @@ interface MemberVars {
   items: StorageIO.ReadDir['ResB']['result'];
 
   loading: boolean;
+
+  sltdItem: ItemType | null;
+  contextMenu: {
+    x: number;
+    y: number;
+  } | null;
 }
 
 interface MethodParam {
@@ -20,6 +29,12 @@ interface MethodParam {
     bucket: string;
     path: string;
   };
+  setSltItem: ItemType | null;
+  openContextMenu: {
+    x: number;
+    y: number;
+  };
+  closeContextMenu: void;
 }
 
 type StateType = MemberVars & MethodWrap<MethodParam>;
@@ -30,6 +45,8 @@ const INIT_STATE: MemberVars = {
   pathStr: '',
   items: [],
   loading: false,
+  sltdItem: null,
+  contextMenu: null,
 };
 
 const useMainStorageStore = create<StateType>((set) => ({
@@ -40,7 +57,8 @@ const useMainStorageStore = create<StateType>((set) => ({
         bucket: state.bucket,
         path: state.pathStr,
       }).then((res) => {
-        set({ items: res.data.result, loading: false });
+        const items = res.data.result.sort((a, b) => Number(a.isFile) - Number(b.isFile));
+        set({ items, loading: false });
       });
       return { loading: true };
     });
@@ -51,8 +69,9 @@ const useMainStorageStore = create<StateType>((set) => ({
         bucket,
         path,
       }).then((res) => {
+        const items = res.data.result.sort((a, b) => Number(a.isFile) - Number(b.isFile));
         set({
-          items: res.data.result,
+          items,
           loading: false,
         });
       });
@@ -64,6 +83,9 @@ const useMainStorageStore = create<StateType>((set) => ({
       };
     });
   },
+  setSltItem: (sltdItem) => set({ sltdItem }),
+  openContextMenu: (contextMenu) => set({ contextMenu }),
+  closeContextMenu: () => set({ contextMenu: null }),
 }));
 
 export default useMainStorageStore;

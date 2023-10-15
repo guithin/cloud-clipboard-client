@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { MethodWrap } from './base';
-import { login, logout } from '../util/axios';
+import { login, logout } from 'src/util/axios';
 
 interface UserState {
   user: {

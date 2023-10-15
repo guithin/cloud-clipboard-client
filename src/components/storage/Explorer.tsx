@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import ExplorerItem from './ExplorerItem';
-import { useMainStorageStore, useUserStore } from '../../store';
-import StorageAPI from '../../api/StorageAPI';
+import { useMainStorageStore, useUserStore } from 'src/store';
+import StorageAPI from 'src/api/StorageAPI';
 
 // const style = createStyle({});
 
@@ -58,8 +58,11 @@ const Explorer: React.FC = () => {
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
-    console.log('this is empty space');
-  }, []);
+    mss.setSltItem(null);
+    mss.openContextMenu(
+      { x: e.clientX, y: e.clientY },
+    );
+  }, [mss]);
 
   return (
     <TableContainer ref={ref} sx={{ flex: '1 1 auto' }} onContextMenu={handleContextMenu}>
