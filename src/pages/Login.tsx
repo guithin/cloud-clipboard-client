@@ -54,7 +54,7 @@ const Login: React.FC = () => {
     }).catch(() => {
       alert('id, password를 확인해주세요.');
     });
-  }, [loginInfo]);
+  }, [loginInfo, login, navigate]);
 
   const handleChange = useCallback((type: 'userId' | 'password', value: string) => {
     setLoginInfo((prev) => ({

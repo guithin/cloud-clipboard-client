@@ -3,7 +3,10 @@ import Router from './Router';
 import GlobalLoading from './components/GlobalLoading';
 import { socket, connectPromise } from './util/wsHelper';
 
+// Temporary code for testing
+// eslint-disable-next-line
 (window as any).temp = () => socket.emit('ExampleWSL', { id: 11 });
+// eslint-disable-next-line
 (window as any).temp2 = () => socket.emit('EnterRoom', { roomId: 'r1' });
 
 socket.on('ExampleWSE', (data) => {

@@ -59,7 +59,7 @@ const ExplorerItem: React.FC<Props> = ({ item }) => {
       return;
     }
     navigate('/storage/' + [bucket, ...paths, nitem.name].join('/'));
-  }, [location]);
+  }, [location, navigate]);
 
   const handleContextMenuItem = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -69,7 +69,7 @@ const ExplorerItem: React.FC<Props> = ({ item }) => {
       x: e.clientX,
       y: e.clientY,
     });
-  }, []);
+  }, [item, openContextMenu, setSltItem]);
 
   return (
     <TableRow

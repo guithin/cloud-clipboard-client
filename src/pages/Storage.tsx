@@ -28,7 +28,7 @@ const Storage: React.FC = () => {
         path: pathStr,
       });
     }
-  }, [user, location, mss]);
+  }, [user, location, mss, navigate]);
 
   if (!user) {
     return null;

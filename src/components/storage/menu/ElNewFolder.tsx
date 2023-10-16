@@ -31,7 +31,7 @@ const ElNewFolder: React.FC = () => {
     }).catch(() => {
       alert('폴더 생성에 실패하였습니다.');
     });
-  }, [handleClose, mss]);
+  }, [handleClose, mss, location.pathname]);
 
   return (
     <>

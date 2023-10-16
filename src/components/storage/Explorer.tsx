@@ -2,14 +2,13 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import ExplorerItem from './ExplorerItem';
-import { useMainStorageStore, useUserStore } from 'src/store';
+import { useMainStorageStore } from 'src/store';
 import StorageAPI from 'src/api/StorageAPI';
 
 // const style = createStyle({});
 
 const Explorer: React.FC = () => {
   const location = useLocation();
-  const { user } = useUserStore();
   const mss = useMainStorageStore();
 
   const ref = useRef<HTMLDivElement>(null);
@@ -38,7 +37,7 @@ const Explorer: React.FC = () => {
       }, file);
     }
     mss.refresh();
-  }, [mss, location, user]);
+  }, [mss, location]);
 
   const handleDragOver = useCallback((e: DragEvent) => {
     e.preventDefault();
@@ -54,7 +53,13 @@ const Explorer: React.FC = () => {
         document.removeEventListener('drop', handleDrop);
       };
     }
-  }, [ref, mss.items, location]);
+  }, [
+    ref,
+    mss.items,
+    location,
+    handleDragOver,
+    handleDrop,
+  ]);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
