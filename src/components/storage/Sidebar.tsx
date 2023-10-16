@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Drawer, List, ListItem, ListItemIcon, Toolbar, Tooltip, Typography } from '@mui/material';
-import { Storage } from '@mui/icons-material';
+import { Storage, AccountTree } from '@mui/icons-material';
 import { StorageIO } from 'common';
 import { createStyle } from 'src/util/styleHelter';
 import { useUserStore } from 'src/store';
 import StorageAPI from 'src/api/StorageAPI';
+import S3SVG from 'src/assets/s3.png';
 
 const style = createStyle({
   drawer: {
@@ -78,7 +79,13 @@ const Sidebar: React.FC = () => {
               }}
             >
               <ListItem sx={style.sx.item} key={'/storage/' + bucket.name}>
-                <ListItemIcon><Storage /></ListItemIcon>
+                <ListItemIcon sx={{ width: '24px', height: '24px' }}>
+                  {bucket.type === 'OS' ?
+                    <Storage /> : bucket.type === 'S3' ?
+                    <img src={S3SVG} /> :
+                    <AccountTree />
+                  }
+                </ListItemIcon>
                 <Typography noWrap={true} color='textPrimary'>
                   {bucket.name}
                 </Typography>
