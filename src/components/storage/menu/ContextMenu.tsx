@@ -1,9 +1,11 @@
 import React from 'react';
-import { Menu, MenuItem } from '@mui/material';
+import { Menu } from '@mui/material';
 import { useMainStorageStore } from 'src/store';
 import ElDelete from './ElDelete';
 import ElNewFolder from './ElNewFolder';
 import ElDetail from './ElDetail';
+import ElMove from './ElMove';
+import ElRename from './ElRename';
 
 const ContextMenu: React.FC = () => {
   const { contextMenu, closeContextMenu, sltdItem } = useMainStorageStore();
@@ -33,8 +35,8 @@ const ContextMenu: React.FC = () => {
       {sltdItem && <ElDelete />}
       {!sltdItem && <ElNewFolder />}
       {sltdItem && <ElDetail />}
-      <MenuItem onKeyDown={e => e.stopPropagation()}>asdf</MenuItem>
-      <MenuItem onKeyDown={e => e.stopPropagation()}>asdf</MenuItem>
+      {sltdItem && <ElMove />}
+      {sltdItem && <ElRename />}
     </Menu>
   );
 };

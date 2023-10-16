@@ -1,11 +1,20 @@
 import React, { useCallback, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, TextField } from '@mui/material';
 import { useMainStorageStore } from 'src/store';
 import StorageAPI from 'src/api/StorageAPI';
+import { createStyle } from 'src/util/styleHelter';
+
+const style = createStyle({
+  dialogContent: {
+    width: '400px',
+  },
+  textField: {
+    width: '100%',
+    mt: 1,
+  },
+})
 
 const ElNewFolder: React.FC = () => {
-  const location = useLocation();
 
   const mss = useMainStorageStore();
 
@@ -16,22 +25,21 @@ const ElNewFolder: React.FC = () => {
     setDiaOpen(false);
     setDirName('');
     mss.closeContextMenu();
-  }, [mss]);
+  }, [mss, setDirName]);
 
   const handleClick = useCallback((dirName: string) => {
     if (!mss.contextMenu || mss.sltdItem) return;
     setDiaOpen(false);
-    const [bucket, ...paths] = location.pathname.split('/').filter((path) => path !== '').slice(1);
     StorageAPI.mkdir({
-      bucket,
-      path: paths.join('/') + `/${dirName}`,
+      bucket: mss.bucket,
+      path: mss.pathStr + `/${dirName}`,
     }).then(() => {
       handleClose();
       mss.refresh();
     }).catch(() => {
       alert('폴더 생성에 실패하였습니다.');
     });
-  }, [handleClose, mss, location.pathname]);
+  }, [handleClose, mss]);
 
   return (
     <>
@@ -46,22 +54,19 @@ const ElNewFolder: React.FC = () => {
         onClose={handleClose}
       >
         <DialogTitle>새 폴더</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={style.sx.dialogContent}>
           <TextField
-            sx={{ mt: 1 }}
+            sx={style.sx.textField}
             label='폴더 이름'
             onKeyDown={(e) => e.stopPropagation()}
             onChange={(e) => setDirName(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClick(dirName)} color='primary'>
+          <Button onClick={() => handleClick(dirName)} variant="contained">
             만들기
           </Button>
-          <Button
-            onClick={handleClose}
-            color='primary'
-          >
+          <Button onClick={handleClose}>
             취소
           </Button>
         </DialogActions>

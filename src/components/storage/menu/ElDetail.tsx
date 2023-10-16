@@ -18,7 +18,7 @@ const detailLst: DetailEl[] = [{
 }, {
   key: 'size',
   displayStr: '크기',
-  value: (item) => getSizeStr(item.size),
+  value: (item) => item.isFile ? getSizeStr(item.size) : '',
 }, {
   key: 'fileType',
   displayStr: '파일 타입',

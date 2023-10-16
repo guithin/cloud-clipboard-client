@@ -57,7 +57,7 @@ const useMainStorageStore = create<StateType>((set) => ({
         bucket: state.bucket,
         path: state.pathStr,
       }).then((res) => {
-        const items = res.data.result.sort((a, b) => Number(a.isFile) - Number(b.isFile));
+        const items = [...res.data.result.filter(i => !i.isFile), ...res.data.result.filter(i => i.isFile)];
         set({ items, loading: false });
       });
       return { loading: true };
@@ -69,7 +69,7 @@ const useMainStorageStore = create<StateType>((set) => ({
         bucket,
         path,
       }).then((res) => {
-        const items = res.data.result.sort((a, b) => Number(a.isFile) - Number(b.isFile));
+        const items = [...res.data.result.filter(i => !i.isFile), ...res.data.result.filter(i => i.isFile)];
         set({
           items,
           loading: false,

@@ -16,9 +16,9 @@ const style = createStyle({
     width: '100%',
   },
   item: {
-    '&:hover': {
-      backgroundColor: '#e0e0e0',
-    },
+    // '&:hover': {
+    //   backgroundColor: '#e0e0e0',
+    // },
     cursor: 'pointer',
     userSelect: 'none',
   },
@@ -74,7 +74,13 @@ const ExplorerItem: React.FC<Props> = ({ item }) => {
   return (
     <TableRow
       sx={style.merge('item', {
-        backgroundColor: item.name === sltdItem?.name ? '#d0d0d0' : undefined,
+        ...(item.name === sltdItem?.name ? {
+          backgroundColor: '#d0d0d0',
+        } : {
+          '&:hover': {
+            backgroundColor: '#e0e0e0',
+          },
+        })
       })}
       onClick={() => setSltItem(item)}
       onDoubleClick={() => handleClick(item)}

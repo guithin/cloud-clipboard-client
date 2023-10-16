@@ -33,6 +33,10 @@ class StorageAPI {
   mkdir(body: StorageIO.Mkdir['ReqB']) {
     return axios.post<StorageIO.Mkdir['ResB']>('/api/storage/mkdir', body);
   }
+
+  mv(body: StorageIO.MvDirent['ReqB']) {
+    return axios.post<StorageIO.MvDirent['ResB']>('/api/storage/mv', body);
+  }
 }
 
 export default new StorageAPI();
