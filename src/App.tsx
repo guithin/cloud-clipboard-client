@@ -9,10 +9,6 @@ import { socket, connectPromise } from './util/wsHelper';
 // eslint-disable-next-line
 (window as any).temp2 = () => socket.emit('EnterRoom', { roomId: 'r1' });
 
-socket.on('ExampleWSE', (data) => {
-  console.log(data);
-});
-
 const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
 

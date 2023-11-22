@@ -32,7 +32,11 @@ const style = createStyle({
   },
 });
 
-const Sidebar: React.FC = () => {
+interface Props {
+  service: 'storage' | 'clipboard';
+}
+
+const Sidebar: React.FC<Props> = ({ service }) => {
   const { user } = useUserStore();
   const [bucketList, setBucketList] = useState<StorageIO.BucketLst['ResB']['buckets']>([]);
 
@@ -51,10 +55,10 @@ const Sidebar: React.FC = () => {
       <Toolbar />
       <List>
         <Link
-          to={'/storage/' + user.userId}
+          to={`/${service}/` + user.userId}
           style={{ textDecoration: 'none', marginBottom: '20px', display: 'block' }}
         >
-          <ListItem sx={style.sx.item} key={'/storage/' + user.userId}>
+          <ListItem sx={style.sx.item} key={`/${service}/` + user.userId}>
             <ListItemIcon><Storage /></ListItemIcon>
             <Typography noWrap={true} color='textPrimary'>
               내 드라이브
@@ -63,9 +67,9 @@ const Sidebar: React.FC = () => {
         </Link>
         {bucketList.map((bucket) => (
           <Link
-            to={'/storage/' + bucket.name}
+            to={`/${service}/` + bucket.name}
             style={{ textDecoration: 'none' }}
-            key={'/storage/' + bucket.name}
+            key={`/${service}/` + bucket.name}
           >
             <Tooltip
               title={'owner - ' + bucket.ownerName}
@@ -78,7 +82,7 @@ const Sidebar: React.FC = () => {
                 },
               }}
             >
-              <ListItem sx={style.sx.item} key={'/storage/' + bucket.name}>
+              <ListItem sx={style.sx.item} key={`/${service}/` + bucket.name}>
                 <ListItemIcon sx={{ width: '24px', height: '24px' }}>
                   {bucket.type === 'OS' ?
                     <Storage /> : bucket.type === 'S3' ?

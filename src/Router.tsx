@@ -5,6 +5,7 @@ import { Home as HomeIcon } from '@mui/icons-material';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Storage from './pages/Storage';
+import Clipboard from './pages/Clipboard';
 import { useUserStore } from './store';
 import { createStyle } from './util/styleHelter';
 
@@ -15,6 +16,7 @@ const Router: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<PrivateRoute label="Home"><Home /></PrivateRoute>} />
         <Route path="/storage/*" element={<PrivateRoute label="Storage"><Storage /></PrivateRoute>} />
+        <Route path="/clipboard/*" element={<PrivateRoute label="Clipboard"><Clipboard /></PrivateRoute>} />
         {/* <Route path="*" element={<Navigate to="/" />} /> */}
       </Routes>
     </BrowserRouter>
